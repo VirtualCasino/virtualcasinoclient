@@ -54,13 +54,19 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Config.cs" />
-     <Compile Include="Assets\ConfirmNick.cs" />
-     <Compile Include="Assets\ErrorMessageDisplayer.cs" />
-     <Compile Include="Assets\ErrorMessagesConfig.cs" />
-     <Compile Include="Assets\ErrorView.cs" />
-     <Compile Include="Assets\HttpClient.cs" />
-     <Compile Include="Assets\HttpResponse.cs" />
-     <Compile Include="Assets\RegisterMenuScript.cs" />
+     <Compile Include="Assets\Error\ErrorMessageDisplayer.cs" />
+     <Compile Include="Assets\Error\ErrorMessagesConfig.cs" />
+     <Compile Include="Assets\Error\ErrorView.cs" />
+     <Compile Include="Assets\GameMenu\GameMenuScript.cs" />
+     <Compile Include="Assets\Http\HttpClient.cs" />
+     <Compile Include="Assets\Http\HttpResponse.cs" />
+     <Compile Include="Assets\Loading\LoadingDisplayer.cs" />
+     <Compile Include="Assets\Loading\LoadingScript.cs" />
+     <Compile Include="Assets\RegisterMenu\RegisterMenuScript.cs" />
+     <Compile Include="Assets\SetNickMenu\ClientView.cs" />
+     <Compile Include="Assets\SetNickMenu\ConfirmNick.cs" />
+     <Compile Include="Assets\SetNickMenu\Nick.cs" />
+     <Compile Include="Assets\SetNickMenu\RegisterClient.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
