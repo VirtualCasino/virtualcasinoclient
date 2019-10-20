@@ -44,12 +44,14 @@ public class ConfirmNick : MonoBehaviour
 
     private void nickSent(HttpResponse result) {
         if(result == null || result.response == null) {
+            loadingDisplayer.hideLoading();
             errorMessageDisplayer.DisplayErrorMessage(new ErrorView("internalServerError"));
             StartCoroutine(errorMessageDisplayer.hideErrorMessageAfterTime(timeOfErrorMessageInSeconds));
         }
         if (result.isError){
             Debug.Log("Error:");
             Debug.Log(result.response);
+            loadingDisplayer.hideLoading();
             errorMessageDisplayer.DisplayErrorMessage(result.response);
             StartCoroutine(errorMessageDisplayer.hideErrorMessageAfterTime(timeOfErrorMessageInSeconds));
         }

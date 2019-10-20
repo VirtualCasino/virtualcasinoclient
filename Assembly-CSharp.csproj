@@ -70,6 +70,8 @@
      <Compile Include="Assets\SetNickMenu\ConfirmNick.cs" />
      <Compile Include="Assets\SetNickMenu\Nick.cs" />
      <Compile Include="Assets\SetNickMenu\RegisterClient.cs" />
+     <Compile Include="Assets\TablesMenu\JoinTable.cs" />
+     <Compile Include="Assets\TablesMenu\TableId.cs" />
      <Compile Include="Assets\TablesMenu\TablePageView.cs" />
      <Compile Include="Assets\TablesMenu\TablesMenuScript.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />

@@ -18,7 +18,7 @@ public class TablesMenuScript : MonoBehaviour
     public ScrollRect tablesScrollView;
     public GameObject tablesScrollContent;
     public GameObject tablePageNumberText;
-    public GameObject tablesScrollItemPrefab;
+    public Button tablesScrollItemPrefab;
     HttpClient httpClient;
     LoadingDisplayer loadingDisplayer;
     ErrorMessageDisplayer errorMessageDisplayer;
@@ -42,12 +42,14 @@ public class TablesMenuScript : MonoBehaviour
     }
 
     public void nextPage() {
+        Debug.Log("Next page");
         clearTablesList();
         string tableName = tableNameText.GetComponent<Text>().text ?? "";
         StartCoroutine(getTablePageCoroutine(tableName, currentPage + 1));
     }
 
     public void previousPage() {
+        Debug.Log("Previous page");
         clearTablesList();
         string tableName = tableNameText.GetComponent<Text>().text ?? "";
         int pageToGet = currentPage - 1;
@@ -58,8 +60,16 @@ public class TablesMenuScript : MonoBehaviour
     }
 
     public void refresh() {
+        Debug.Log("Refresh");
         clearTablesList();
         string tableName = tableNameText.GetComponent<Text>().text ?? "";
+        StartCoroutine(getTablePageCoroutine(tableName, currentPage));
+    }
+
+    public void findByName() {
+        clearTablesList();
+        string tableName = tableNameText.GetComponent<Text>().text ?? "";
+        Debug.Log("Find by name:" + tableName);
         StartCoroutine(getTablePageCoroutine(tableName, currentPage));
     }
 
@@ -87,15 +97,67 @@ public class TablesMenuScript : MonoBehaviour
     }
 
     private void generateTableScrollItem(TableView tableView) {
-        GameObject tableScrollItemObj = Instantiate(tablesScrollItemPrefab);
+        Button tableScrollItemObj = Instantiate(tablesScrollItemPrefab);
         tableScrollItemObj.transform.SetParent(tablesScrollContent.transform, false);
         tableScrollItemObj.transform.Find("Table_Name").gameObject.GetComponent<TextMeshProUGUI>().text = tableView.firstPlayerNick;
         tableScrollItemObj.transform.Find("Clients_Count").gameObject.GetComponent<TextMeshProUGUI>().text = tableView.playersIds.Count + "/" + tableView.maxPlayersCount;
+        tableScrollItemObj.onClick.AddListener(() => {
+            loadingDisplayer.showLoading();
+            string clientIdValue = PlayerPrefs.GetString("Id");
+            ClientId clientId = new ClientId(clientIdValue);
+            TableId tableId = new TableId(tableView.tableViewId);
+            JoinTable joinTable = new JoinTable(clientId, tableId);
+            Debug.Log("Joining to table:s" + joinTable.tableId + " by client: " + joinTable.clientId);
+            string joinTableJson = JsonUtility.ToJson(joinTable) ?? "";
+            StartCoroutine(this.joinTable(joinTableJson));
+        });
+    }
+    
+    private IEnumerator joinTable(string joinTableJson) {
+        HttpResponse result = null;
+        yield return Run<HttpResponse>(httpClient.Post("/virtual-casino/casino-services/tables/participation", joinTableJson), (output) => result = output);
+        Debug.Log("Table reserved");
+        joinedTable(result);
+    }
+
+    private void joinedTable(HttpResponse result) {
+        if(result == null || result.response == null) {
+            loadingDisplayer.hideLoading();
+            errorMessageDisplayer.DisplayErrorMessage(new ErrorView("internalServerError"));
+            StartCoroutine(errorMessageDisplayer.hideErrorMessageAfterTime(timeOfErrorMessageInSeconds));
+        }
+        if (result.isError){
+            Debug.Log("Error:");
+            Debug.Log(result.response);
+            loadingDisplayer.hideLoading();
+            errorMessageDisplayer.DisplayErrorMessage(result.response);
+            StartCoroutine(errorMessageDisplayer.hideErrorMessageAfterTime(timeOfErrorMessageInSeconds));
+        }
+        else {
+            string tableUri = result.headers["Location"];
+            StartCoroutine(getTable(tableUri));
+        }
+    }
+
+    private IEnumerator getTable(string tableUri) {
+        HttpResponse result = null;
+        yield return Run<HttpResponse>(httpClient.Get(tableUri), (output) => result = output);
+        Debug.Log("Got table: " + result.response);
+        TableView tableView = JsonUtility.FromJson<TableView>(result.response);
+        gotTable(tableView);
+    }
+
+    private void gotTable(TableView tableView) {
+        PlayerPrefs.SetString("TableId", tableView.tableViewId);
+        loadingDisplayer.hideLoading();
+        SceneManager.LoadScene("Game");
     }
 
     private void clearTablesList() {
-        while(tablesScrollContent.transform.childCount > 0) {
-            Destroy(tablesScrollContent.transform.GetChild(0).gameObject);
+        Debug.Log("Clear tables list");
+        for (var i = tablesScrollContent.transform.childCount - 1; i >= 0; i--) {
+            var tableView = tablesScrollContent.transform.GetChild(i);
+            tableView.transform.SetParent(null);
         }
     }
 
