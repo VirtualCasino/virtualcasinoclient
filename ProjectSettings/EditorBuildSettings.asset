@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/CreateAccount.unity
+    guid: 990ae88e732c1069c964565471f0fd00
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: cb873aeecbcf8f718b6f84c7fb633a9c
   m_configObjects: {}
