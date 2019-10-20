@@ -21,6 +21,7 @@ public class ConfirmNick : MonoBehaviour
     ErrorMessageDisplayer errorMessageDisplayer;
     
     public void Start() {
+        Screen.orientation = ScreenOrientation.Portrait;
         errorMessageDisplayer = new ErrorMessageDisplayer(errorToastHandle, errorTextMessageHandle);
         loadingDisplayer = new LoadingDisplayer(loadingHandle);
         httpClient = new HttpClient();

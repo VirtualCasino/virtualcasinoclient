@@ -21,6 +21,7 @@ public class GameMenuScript : MonoBehaviour
     ErrorMessageDisplayer errorMessageDisplayer;
 
     public void Start() {
+        Screen.orientation = ScreenOrientation.Portrait;
         errorMessageDisplayer = new ErrorMessageDisplayer(errorToastHandle, errorTextMessageHandle);
         loadingDisplayer = new LoadingDisplayer(loadingHandle);
         httpClient = new HttpClient();
@@ -28,6 +29,7 @@ public class GameMenuScript : MonoBehaviour
 
     public void OnEnable()
     {
+        Screen.orientation = ScreenOrientation.Portrait;
         string nick = PlayerPrefs.GetString("Nick");
         int tokensCount = PlayerPrefs.GetInt("Tokens");
         nickValue.GetComponent<TextMeshProUGUI>().text = nick;
