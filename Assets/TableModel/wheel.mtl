@@ -1,7 +1,7 @@
-# Blender MTL File: 'ruletka.blend'
+# Blender MTL File: 'wheel.blend'
 # Material Count: 3
 
-newmtl Material.003
+newmtl Material.004
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -10,9 +10,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd textures/stol.png
+map_Kd textures/kolo2.png
 
-newmtl Material.005
+newmtl Material.006
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -21,9 +21,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd textures/kolo3.png
+map_Kd textures/kolo4.png
 
-newmtl Material.008
+newmtl Material.007
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -32,4 +32,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd textures/plansza.png
+map_Kd textures/kolo.png
