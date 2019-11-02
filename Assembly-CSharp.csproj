@@ -57,6 +57,7 @@
      <Compile Include="Assets\Error\ErrorMessageDisplayer.cs" />
      <Compile Include="Assets\Error\ErrorMessagesConfig.cs" />
      <Compile Include="Assets\Error\ErrorView.cs" />
+     <Compile Include="Assets\Game\GameSocketScript.cs" />
      <Compile Include="Assets\GameMenu\ClientId.cs" />
      <Compile Include="Assets\GameMenu\GameMenuScript.cs" />
      <Compile Include="Assets\GameMenu\ReserveRouletteTable.cs" />
@@ -665,6 +666,10 @@
  <Reference Include="mscorlib">
  <HintPath>/opt/Unity-2018.3.0f2/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/mscorlib.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{3B93D243-598C-5055-FE33-86BBFB9FD505}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
