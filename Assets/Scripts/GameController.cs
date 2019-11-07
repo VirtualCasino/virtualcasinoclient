@@ -214,7 +214,7 @@ public class GameController : MonoBehaviour
             {
                 Vector3 directionToTarget = field.position - currentPosition;
                 float dSqrToTarget = directionToTarget.sqrMagnitude;
-                if (dSqrToTarget < closestDistanceSqr && directionToTarget.x < -0.1)
+                if (dSqrToTarget < closestDistanceSqr && directionToTarget.x < -0.1 && directionToTarget.z < 0.2 && directionToTarget.z > -0.2)
                 {
                     closestDistanceSqr = dSqrToTarget;
                     bestTarget = field;
@@ -251,7 +251,7 @@ public class GameController : MonoBehaviour
             {
                 Vector3 directionToTarget = field.position - currentPosition;
                 float dSqrToTarget = directionToTarget.sqrMagnitude;
-                if (dSqrToTarget < closestDistanceSqr && directionToTarget.x > 0.1)
+                if (dSqrToTarget < closestDistanceSqr && directionToTarget.x > 0.1 && directionToTarget.z < 0.2 && directionToTarget.z > -0.2)
                 {
                     closestDistanceSqr = dSqrToTarget;
                     bestTarget = field;
@@ -288,7 +288,7 @@ public class GameController : MonoBehaviour
             {
                 Vector3 directionToTarget = field.position - currentPosition;
                 float dSqrToTarget = directionToTarget.sqrMagnitude;
-                if (dSqrToTarget < closestDistanceSqr && directionToTarget.z > 0.1)
+                if (dSqrToTarget < closestDistanceSqr && directionToTarget.z > 0.1 && directionToTarget.z < 1)
                 {
                     closestDistanceSqr = dSqrToTarget;
                     bestTarget = field;

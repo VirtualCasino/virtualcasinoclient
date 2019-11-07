@@ -152,7 +152,7 @@ public class TablesMenuScript : MonoBehaviour
     private void gotTable(TableView tableView) {
         PlayerPrefs.SetString("TableId", tableView.tableViewId);
         loadingDisplayer.hideLoading();
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Roulette");
     }
 
     private void clearTablesList() {
