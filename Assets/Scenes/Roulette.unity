@@ -9587,6 +9587,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc44d93e76da0da808554aad39c39bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &940339593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 940339595}
+  - component: {fileID: 940339594}
+  m_Layer: 0
+  m_Name: FieldChooser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &940339594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940339593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 161336cefd83174a7bc53e5461120fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameFields: {fileID: 328537094}
+  cursor: {fileID: 325277783}
+  coins: {fileID: 1078837143}
+--- !u!4 &940339595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940339593}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 345.49106, y: 586.7595, z: -2.6152344}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &945342689
 GameObject:
   m_ObjectHideFlags: 0
@@ -17344,12 +17390,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0743adc8891f66eaa809a7d28dc5d6ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fieldChooser: {fileID: 940339594}
   gameFields: {fileID: 328537094}
   cursor: {fileID: 325277783}
-  coins: {fileID: 1078837143}
-  bets: []
   countText: {fileID: 732258071}
   result: {fileID: 477395824}
+  coins: {fileID: 1078837143}
   fireDelta: 0.5
 --- !u!4 &1751347195
 Transform:

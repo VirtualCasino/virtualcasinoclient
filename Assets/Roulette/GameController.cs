@@ -6,6 +6,9 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
+    private string MY_BET_TAG = "myBet";
+    private string BET_TAG = "bet";
+
     public FieldChooser fieldChooser;
     public GameObject gameFields;
     public GameObject cursor; 
@@ -42,11 +45,11 @@ public class GameController : MonoBehaviour
     private void initActualPlayersBets()
     {
         Transform start = gameFields.transform.Find("NUMBER_0");
-        doBet(start.gameObject);
+        doOtherPlayerBet(start.gameObject);
         Transform start20 = gameFields.transform.Find("NUMBER_20");
-        doBet(start20.gameObject);
+        doOtherPlayerBet(start20.gameObject);
         Transform start13 = gameFields.transform.Find("NUMBER_13");
-        doBet(start13.gameObject);
+        doOtherPlayerBet(start13.gameObject);
     }
 
     public float fireDelta = 0.5F;
@@ -70,7 +73,14 @@ public class GameController : MonoBehaviour
         if (Input.GetButton("Fire3") && myTime > nextFire / 10 && isNotEndGame())
         {
             nextFire = myTime + fireDelta;
-            doBet(cursor);
+            if (!isMyBetOn())
+            {
+                doMyBet();
+            }
+            else
+            {
+                removeBet();
+            }
         }
 
         if (Input.GetButton("Jump") && myTime > nextFire / 10 && isNotEndGame())
@@ -93,17 +103,50 @@ public class GameController : MonoBehaviour
         return !string.Equals(countText.GetComponent<TextMeshProUGUI>().text, "0") && !string.Equals(countText.GetComponent<TextMeshProUGUI>().text, randomResult.ToString());
     }
 
-    private void doBet(GameObject field)
+    private void doMyBet()
+    {
+        doBet(cursor, MY_BET_TAG);
+        CursorView.setAsHasBets(cursor);
+    }
+
+    private void doOtherPlayerBet(GameObject field)
+    {
+        doBet(field, BET_TAG);
+    }
+
+    private void doBet(GameObject field, string tag)
     {
         var rotation = coins.transform.rotation;
         rotation.y += Random.Range(-10.0f, 10.0f);
         var newBet = Instantiate(coins, field.transform.position, coins.transform.rotation).transform;
         newBet.localScale = new Vector3(0.15f, 0.15f, 0.15f);
-        newBet.tag = "bet";
+        newBet.tag = tag;
         bets.Add(newBet);
-        Debug.Log("Bets count" + bets.Count);
         refreshBetsView();
-        CursorView.setAsHasBets(cursor);
+    }
+
+    private void removeBet()
+    {
+        var cursorPosition = cursor.transform.position;
+        GameObject[] allMovableThings = GameObject.FindGameObjectsWithTag(MY_BET_TAG);
+        foreach (GameObject current in allMovableThings)
+        {
+            if (current.transform.position == cursorPosition)
+            {
+                int indexOfElementToRemove = -1;
+                bets.ForEach(bet =>
+                {
+                    if (bet.position == cursorPosition && bet.tag == "myBet")
+                    {
+                        indexOfElementToRemove = bets.IndexOf(bet);
+                        Debug.Log("REMOVED!!!!");
+                    }
+                });
+                bets.RemoveAt(indexOfElementToRemove);
+                Destroy(current);
+                CursorView.setAsNoBets(cursor);
+            }
+        }
     }
 
     private void refreshBetsView()
@@ -118,12 +161,17 @@ public class GameController : MonoBehaviour
                {
                    var newBet = Instantiate(coins, bet.position, bet.rotation, bet);
                }
-            }); 
+            });
+    }
+
+    private bool isMyBetOn()
+    {
+        return !checkIfPosEmpty(cursor.transform.position);
     }
 
     private bool checkIfPosEmpty(Vector3 targetPos)
     {
-        GameObject[] allMovableThings = GameObject.FindGameObjectsWithTag("bet");
+        GameObject[] allMovableThings = GameObject.FindGameObjectsWithTag(MY_BET_TAG);
         foreach (GameObject current in allMovableThings)
         {
             if (current.transform.position == targetPos)
@@ -156,7 +204,6 @@ public class GameController : MonoBehaviour
         result.GetComponent<TextMeshProUGUI>().text = position.ToString().Equals(randomResult) ? "You won!!!" : PlayerPrefs.GetString("Name") + "You are loser :(";
     }
 }
-
 
 /*  const float V1 = 0.5f;
         MoveCursorToClosestFieldOnThe(Side.RIGHT);
