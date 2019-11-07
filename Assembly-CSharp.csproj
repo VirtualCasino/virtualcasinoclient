@@ -68,7 +68,10 @@
      <Compile Include="Assets\Loading\LoadingScript.cs" />
      <Compile Include="Assets\RegisterMenu\RegisterMenuScript.cs" />
      <Compile Include="Assets\RegisterMenu\StartScript.cs" />
-     <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Roulette\CursorView.cs" />
+     <Compile Include="Assets\Roulette\FieldChooser.cs" />
+     <Compile Include="Assets\Roulette\GameController.cs" />
+     <Compile Include="Assets\Roulette\Side.cs" />
      <Compile Include="Assets\SetNickMenu\ClientView.cs" />
      <Compile Include="Assets\SetNickMenu\ConfirmNick.cs" />
      <Compile Include="Assets\SetNickMenu\Nick.cs" />
