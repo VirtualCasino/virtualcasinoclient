@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Networking;
+using System;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -12,27 +15,31 @@ public class GameController : MonoBehaviour
     public FieldChooser fieldChooser;
     public GameObject gameFields;
     public GameObject cursor; 
-    public GameObject countText;
     public GameObject result;
     public GameObject coins;
 
+    public GameObject cash;
+    public GameObject betValue;
+
+    private int cashValue = 100;
+    private int betValueI = 10;
+
     private List<Transform> bets = new List<Transform>();
     private string playerChoose;
-    private int position;
-    private int randomResult = 0;
+    HttpClient httpClient;
 
     void Start()
     {
         initHudView();
-        initCursor();
-        initActualPlayersBets();
+        initCursor(); 
+        httpClient = new HttpClient();
+        //initActualPlayersBets();
     }
 
     private void initHudView()
     {
-        countText.GetComponent<TextMeshProUGUI>().text = "11";
-        StartCoroutine(StartCountdown(timeLeft));
-        position = 0;
+        cash.GetComponent<TextMeshProUGUI>().text = cashValue.ToString();
+        betValue.GetComponent<TextMeshProUGUI>().text = betValueI.ToString();
     }
 
     private void initCursor()
@@ -100,13 +107,28 @@ public class GameController : MonoBehaviour
 
     private bool isNotEndGame()
     {
-        return !string.Equals(countText.GetComponent<TextMeshProUGUI>().text, "0") && !string.Equals(countText.GetComponent<TextMeshProUGUI>().text, randomResult.ToString());
+        return true;//!string.Equals(countText.GetComponent<TextMeshProUGUI>().text, "0") && !string.Equals(countText.GetComponent<TextMeshProUGUI>().text, randomResult.ToString());
     }
 
     private void doMyBet()
     {
+        int tokensCount = 10;
+        string clientId = PlayerPrefs.GetString("Id");
+        string tableId = PlayerPrefs.GetString("TableId");
+        PlaceRouletteBet placeRouletteBet = new PlaceRouletteBet(new RouletteGameId(tableId), new RoulettePlayerId(clientId), cursor.transform.name, tokensCount);
+        string placeRouletteBetJson = JsonUtility.ToJson(placeRouletteBet) ?? "";
+        StartCoroutine(placeRouletteBetCorutine(placeRouletteBetJson));
         doBet(cursor, MY_BET_TAG);
         CursorView.setAsHasBets(cursor);
+        cash.GetComponent<TextMeshProUGUI>().text = (cashValue - betValueI).ToString();
+
+        cashValue -= betValueI;
+    }
+
+    private IEnumerator placeRouletteBetCorutine(string placeRouletteBetJson)
+    {
+        HttpResponse result = null;
+        yield return Run<HttpResponse>(httpClient.Post("/virtual-casino/roulette-game/games/bets", placeRouletteBetJson), (output) => result = output);
     }
 
     private void doOtherPlayerBet(GameObject field)
@@ -116,8 +138,7 @@ public class GameController : MonoBehaviour
 
     private void doBet(GameObject field, string tag)
     {
-        var rotation = coins.transform.rotation;
-        rotation.y += Random.Range(-10.0f, 10.0f);
+
         var newBet = Instantiate(coins, field.transform.position, coins.transform.rotation).transform;
         newBet.localScale = new Vector3(0.15f, 0.15f, 0.15f);
         newBet.tag = tag;
@@ -125,7 +146,8 @@ public class GameController : MonoBehaviour
         refreshBetsView();
     }
 
-    private void removeBet()
+
+private void removeBet()
     {
         var cursorPosition = cursor.transform.position;
         GameObject[] allMovableThings = GameObject.FindGameObjectsWithTag(MY_BET_TAG);
@@ -147,6 +169,15 @@ public class GameController : MonoBehaviour
                 CursorView.setAsNoBets(cursor);
             }
         }
+        cash.GetComponent<TextMeshProUGUI>().text = (cashValue + betValueI).ToString();
+
+        cashValue += betValueI;
+    }
+
+    private IEnumerator cancelRouletteBetCorutine(string cancelRouletteBetJson)
+    {
+        HttpResponse result = null;
+        yield return Run<HttpResponse>(httpClient.Delete("/virtual-casino/roulette-game/games/bets", cancelRouletteBetJson), (output) => result = output);
     }
 
     private void refreshBetsView()
@@ -179,8 +210,20 @@ public class GameController : MonoBehaviour
         }
         return true;
     }
+    public static IEnumerator Run<T>(IEnumerator target, Action<T> output)
+    {
+        object result = null;
+        while (target.MoveNext())
+        {
+            result = target.Current;
+            yield return result;
+        }
+        output((T)result);
+    }
 
-    float timeLeft = 11.0f;
+}
+
+/*   float timeLeft = 11.0f;
     public System.Random random = new System.Random();
     float currCountdownValue;
     public IEnumerator StartCountdown(float countdownValue)
@@ -190,7 +233,7 @@ public class GameController : MonoBehaviour
         {
             yield return new WaitForSeconds(1.0f);
             currCountdownValue--;
-            countText.GetComponent<TextMeshProUGUI>().text = currCountdownValue.ToString();
+
 
         }
         yield return new WaitForSeconds(1.0f);
@@ -203,9 +246,7 @@ public class GameController : MonoBehaviour
     {//TODO: Zmienić na podliczenie z serwera.
         result.GetComponent<TextMeshProUGUI>().text = position.ToString().Equals(randomResult) ? "You won!!!" : PlayerPrefs.GetString("Name") + "You are loser :(";
     }
-}
-
-/*  const float V1 = 0.5f;
+    const float V1 = 0.5f;
         MoveCursorToClosestFieldOnThe(Side.RIGHT);
         yield return new WaitForSeconds(V1);
         MoveCursorToClosestFieldOnThe(Side.RIGHT);

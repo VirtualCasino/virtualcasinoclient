@@ -82,7 +82,7 @@ public class GameMenuScript : MonoBehaviour
     private void gotTable(TableView tableView) {
         PlayerPrefs.SetString("TableId", tableView.tableViewId);
         loadingDisplayer.hideLoading();
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Roulette");
     }
 
     public static IEnumerator Run<T>(IEnumerator target, Action<T> output) {

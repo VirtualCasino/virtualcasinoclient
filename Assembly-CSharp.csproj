@@ -71,6 +71,9 @@
      <Compile Include="Assets\Roulette\CursorView.cs" />
      <Compile Include="Assets\Roulette\FieldChooser.cs" />
      <Compile Include="Assets\Roulette\GameController.cs" />
+     <Compile Include="Assets\Roulette\PlaceRouletteBet.cs" />
+     <Compile Include="Assets\Roulette\RouletteGameId.cs" />
+     <Compile Include="Assets\Roulette\RoulettePlayerId.cs" />
      <Compile Include="Assets\Roulette\Side.cs" />
      <Compile Include="Assets\SetNickMenu\ClientView.cs" />
      <Compile Include="Assets\SetNickMenu\ConfirmNick.cs" />
