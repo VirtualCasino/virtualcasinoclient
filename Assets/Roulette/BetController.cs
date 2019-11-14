@@ -174,6 +174,15 @@ public class BetController : MonoBehaviour
         }
     }
 
+    public List<PlayerBet> getCurrentFieldBets()
+    {
+        if (anyBetsOnCurrentFieldExists())
+        {
+            return allBets[fieldChooser.getFieldName()];
+            }
+        return new List<PlayerBet>();
+    }
+
     private bool isMyBetOn()
     {
         if (anyBetsOnCurrentFieldExists())

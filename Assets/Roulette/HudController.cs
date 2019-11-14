@@ -13,6 +13,7 @@ public class HudController : MonoBehaviour
     public GameObject result;
     public GameObject cash;
     public GameObject bet;
+    public GameObject fieldBets;
 
     private int cashValue = 100;
     private int betValue = 1;
@@ -24,6 +25,22 @@ public class HudController : MonoBehaviour
     {
         cash.GetComponent<TextMeshProUGUI>().text = cashValue.ToString();
         bet.GetComponent<TextMeshProUGUI>().text = betValue.ToString();
+        fieldBets.GetComponent<TextMeshProUGUI>().text = "";
+    }
+
+   public void actualizeFieldBets(List<PlayerBet> playersBets)
+    {//TODO: zamiast Id player wyświetlać nicki, nie znalazłem endpointu żeby je dostać. A z eventów nie obsługiwałem bo nie zdążyłem.
+        if (playersBets.Count > 0)
+        {
+            List<string> values = new List<string>();
+            playersBets.ForEach(playerBet => values.Add(playerBet.ToString()));
+            var value = string.Join("/n", values);
+            fieldBets.GetComponent<TextMeshProUGUI>().text = value;
+        }
+        else
+        {
+            fieldBets.GetComponent<TextMeshProUGUI>().text = "";
+        }
     }
 
     public void increaseBetValue()

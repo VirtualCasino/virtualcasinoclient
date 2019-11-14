@@ -92,17 +92,20 @@ public class GameController : MonoBehaviour
                 nextFire = myTime + fireDelta;
                 fieldChooser.MoveCursorToClosestFieldOnThe(Side.LEFT);
                 betController.setCurrentBet();
+                hudController.actualizeFieldBets(betController.getCurrentFieldBets());
             }
             if (Input.GetButton("Fire2") && myTime > nextFire / 20)
             {
                 nextFire = myTime + fireDelta;
                 fieldChooser.MoveCursorToClosestFieldOnThe(Side.RIGHT);
                 betController.setCurrentBet();
+                hudController.actualizeFieldBets(betController.getCurrentFieldBets());
             }
             if (Input.GetButton("Fire3") && myTime > nextFire / 10)
             {
                 nextFire = myTime + fireDelta;
                 betController.bet();
+                hudController.actualizeFieldBets(betController.getCurrentFieldBets());
             }
 
             if (Input.GetButton("Jump") && myTime > nextFire / 10)
@@ -110,6 +113,7 @@ public class GameController : MonoBehaviour
                 nextFire = myTime + fireDelta;
                 fieldChooser.MoveCursorToClosestFieldOnThe(Side.UP);
                 betController.setCurrentBet();
+                hudController.actualizeFieldBets(betController.getCurrentFieldBets());
             }
 
             if (Input.GetButton("Submit") && myTime > nextFire / 10)
@@ -117,6 +121,7 @@ public class GameController : MonoBehaviour
                 nextFire = myTime + fireDelta;
                 fieldChooser.MoveCursorToClosestFieldOnThe(Side.DOWN);
                 betController.setCurrentBet();
+                hudController.actualizeFieldBets(betController.getCurrentFieldBets());
             }
 
             if (Input.GetButton("Increase") && myTime > nextFire / 5)

@@ -31,4 +31,9 @@ public class PlayerBet : IComparable<PlayerBet>
     {
         return value;
     }
+
+    public string ToString()
+    {
+        return playerId + ": " + value;
+    }
 }
