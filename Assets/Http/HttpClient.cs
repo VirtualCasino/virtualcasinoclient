@@ -34,7 +34,7 @@ public class HttpClient {
 
     public IEnumerator Delete(string url, string bodyJsonString)
     {
-        Debug.Log("Sending post request with body:" + bodyJsonString);
+        Debug.Log("Sending delete request with body:" + bodyJsonString);
         UnityWebRequest request = null;
         using (request = CreateDeleteRequest(url, bodyJsonString))
         {

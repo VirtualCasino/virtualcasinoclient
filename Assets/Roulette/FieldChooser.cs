@@ -8,6 +8,15 @@ public class FieldChooser : MonoBehaviour
     public GameObject gameFields;
     public GameObject cursor;
     public GameObject coins;
+    private string actualFieldName = "NUMBER_0";
+    BetController betController;
+
+
+    void Start()
+    {
+        GameObject gameObject = GameObject.Find("BetController");
+        betController = gameObject.GetComponent<BetController>();
+    }
 
     public void MoveCursorToClosestFieldOnThe(Side side)
     {
@@ -121,14 +130,15 @@ public class FieldChooser : MonoBehaviour
         {
             Debug.Log("NAME: " + bestTarget.name);
             cursor.transform.position = bestTarget.position;
-            if (checkIfPosEmpty(bestTarget.position))
+            if (betController.positionHasntCoins(bestTarget.position))
             {
-                CursorView.setAsNoBets(cursor);
+                CursorView.setAsHasntYourBet(cursor);
             }
             else
             {
-                CursorView.setAsHasBets(cursor);
+                CursorView.setAsHasYourBet(cursor);
             }
+            actualFieldName = bestTarget.name; 
         }
         else
         {
@@ -136,15 +146,8 @@ public class FieldChooser : MonoBehaviour
         }
     }
 
-
-    private bool checkIfPosEmpty(Vector3 targetPos)
+    public string getFieldName()
     {
-        GameObject[] allMovableThings = GameObject.FindGameObjectsWithTag("myBet");
-        foreach (GameObject current in allMovableThings)
-        {
-            if (current.transform.position == targetPos)
-                return false;
-        }
-        return true;
+        return actualFieldName;
     }
 }
